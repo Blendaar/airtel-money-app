@@ -1,582 +1,107 @@
+# Airtel Money Chad - Transfer Web App
+
+A secure web application for Airtel Money Chad network money transfers.
+
+## 🎯 Features
+
+✅ **Live money transfer execution**
+✅ **Real-time transaction confirmation**
+✅ **Transaction response display**
+✅ **Mobile-friendly interface**
+✅ **Secure Bearer Token authentication**
+✅ **No data storage on servers**
+✅ **Direct HTTPS connection to Airtel API**
+
+## 📱 Access Your App
+
+**Live URL:** 
+```
+https://blendaar.github.io/Airtel-money-/
+```
+
+## 🚀 How to Use
+
+### Step 1: Get Your Bearer Token
+1. Go to: https://developers.airtel.td
+2. Log in to your account
+3. Find your API credentials/Bearer Token
+4. Copy the token
+
+### Step 2: Open the App
+- Open this URL on your mobile phone browser:
+  ```
+  https://blendaar.github.io/Airtel-money-/
+  ```
+
+### Step 3: Fill in Transfer Details
+- **Bearer Token** - Paste your token from Step 1
+- **Payer Phone Number** - +23565075462 (your phone)
+- **Payer Name** - John (or your name)
+- **Payee Phone Number** - +23562558581 (recipient)
+- **Payee Name** - Bob (or recipient name)
+- **Amount** - 50 XAF (or desired amount)
+
+### Step 4: Execute Transfer
+1. Click **"Execute Transfer"** button
+2. Review confirmation dialog
+3. Click **"Confirm - Send Money"**
+4. Wait for response
+
+### Step 5: Check Response
+The app displays:
+- ✅ Success status and transaction details
+- ⚠️ Warnings or additional information
+- ❌ Error messages if failed
+
+## 📋 Requirements
+
+- ✅ Valid Airtel Chad Bearer Token
+- ✅ Sender phone number: +235XXXXXXXX
+- ✅ Recipient phone number: +235XXXXXXXX
+- ✅ Amount in XAF currency
+- ✅ Sufficient balance
+- ✅ Internet connection
+
+## 🔗 API Endpoint
+
+| Parameter | Value |
+|-----------|-------|
+| Base URL | https://openapiuat.airtel.td |
+| Endpoint | /merchant/v1/transactions |
+| Method | POST |
+| Content-Type | application/xml |
+| Country | TD (Chad) |
+| Currency | XAF |
+| Auth | Bearer Token |
+
+## 🔐 Security
+
+✅ **Local Processing** - All code runs in your browser
+✅ **No Server Storage** - Bearer token NOT saved anywhere
+✅ **Direct Connection** - Only communicates with Airtel API
+✅ **HTTPS Encryption** - Data encrypted in transit
+✅ **No Tracking** - No analytics or user tracking
+
+## ⚠️ Important Warnings
+
+🚨 **This executes REAL transactions!**
+- Double-check all details before confirming
+- Verify phone numbers are correct
+- Ensure you have sufficient balance
+- This action CANNOT be undone
+- Money will be deducted immediately
+
+## 📞 Support
+
+For issues:
+- **Airtel Developer Portal:** https://developers.airtel.td
+- **Airtel Support:** support@airtel.td
+
+## 📄 License
+
+MIT License - Open source
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airtel Money Chad - Transfer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+---
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            max-width: 500px;
-            width: 100%;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .logo {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            background-color: #f9f9ff;
-        }
-
-        input[type="password"] {
-            font-family: 'Courier New', monospace;
-            letter-spacing: 0.1em;
-        }
-
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .info-box strong {
-            color: #667eea;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .response-section {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid #e0e0e0;
-            display: none;
-        }
-
-        .response-section.show {
-            display: block;
-        }
-
-        .response-section h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .response-box {
-            background: #f5f5f5;
-            border-radius: 10px;
-            padding: 15px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: #333;
-            max-height: 300px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-            border: 1px solid #ddd;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .status-badge.success {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-badge.error {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-badge.warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading.show {
-            display: block;
-        }
-
-        .confirmation-dialog {
-            display: none;
-            background: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .confirmation-dialog.show {
-            display: flex;
-        }
-
-        .dialog-box {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            width: 100%;
-        }
-
-        .dialog-box h2 {
-            color: #764ba2;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .dialog-box p {
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .dialog-details {
-            background: #f9f9ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 13px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .dialog-details p {
-            margin: 8px 0;
-            color: #333;
-        }
-
-        .dialog-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .dialog-buttons button {
-            flex: 1;
-            margin: 0;
-        }
-
-        .dialog-buttons .cancel-btn {
-            background: #ccc;
-        }
-
-        .dialog-buttons .cancel-btn:hover {
-            background: #bbb;
-        }
-
-        .warning-text {
-            color: #d32f2f;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        small {
-            display: block;
-            color: #666;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-                border-radius: 15px;
-            }
-
-            .header h1 {
-                font-size: 20px;
-            }
-
-            input, textarea {
-                font-size: 16px;
-            }
-
-            button {
-                padding: 12px;
-                font-size: 14px;
-            }
-
-            .dialog-box {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">💳</div>
-            <h1>Airtel Money Chad</h1>
-            <p>Money Transfer - Live Execution</p>
-        </div>
-
-        <div class="info-box">
-            <strong>⚠️ Important:</strong> This will send a REAL transaction. Double-check all details before confirming.
-        </div>
-
-        <form id="transferForm">
-            <div class="form-group">
-                <label for="bearerToken">Bearer Token *</label>
-                <input 
-                    type="password" 
-                    id="bearerToken" 
-                    placeholder="Enter your bearer token" 
-                    required
-                    autocomplete="off"
-                >
-                <small>Get from: https://developers.airtel.td</small>
-            </div>
-
-            <div class="form-group">
-                <label for="payerPhone">Payer Phone Number *</label>
-                <input 
-                    type="tel" 
-                    id="payerPhone" 
-                    placeholder="+235..." 
-                    value="+23565075462"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="payerName">Payer Name *</label>
-                <input 
-                    type="text" 
-                    id="payerName" 
-                    placeholder="Your name" 
-                    value="John"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="payeePhone">Payee Phone Number *</label>
-                <input 
-                    type="tel" 
-                    id="payeePhone" 
-                    placeholder="+235..." 
-                    value="+23562558581"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="payeeName">Payee Name *</label>
-                <input 
-                    type="text" 
-                    id="payeeName" 
-                    placeholder="Recipient name" 
-                    value="Bob"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="amount">Amount (XAF) *</label>
-                <input 
-                    type="number" 
-                    id="amount" 
-                    placeholder="Amount" 
-                    value="50"
-                    required
-                    min="1"
-                >
-            </div>
-
-            <button type="submit">Execute Transfer</button>
-        </form>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p style="color: #666; margin-top: 10px;">Processing transaction...</p>
-        </div>
-
-        <div class="response-section" id="responseSection">
-            <h3>Response</h3>
-            <div id="statusBadge"></div>
-            <div class="response-box" id="responseBox"></div>
-        </div>
-    </div>
-
-    <div class="confirmation-dialog" id="confirmationDialog">
-        <div class="dialog-box">
-            <h2>⚠️ Confirm Transaction</h2>
-            <p>You are about to send money. This action cannot be undone.</p>
-
-            <div class="dialog-details" id="dialogDetails"></div>
-
-            <div class="warning-text">
-                ⚠️ Make sure all details are correct before proceeding!
-            </div>
-
-            <div class="dialog-buttons">
-                <button type="button" class="cancel-btn" onclick="cancelTransaction()">Cancel</button>
-                <button type="button" onclick="confirmTransaction()">Confirm - Send Money</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let pendingTransaction = null;
-
-        document.getElementById('transferForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            showConfirmation();
-        });
-
-        function showConfirmation() {
-            const bearerToken = document.getElementById('bearerToken').value;
-            const payerPhone = document.getElementById('payerPhone').value;
-            const payerName = document.getElementById('payerName').value;
-            const payeePhone = document.getElementById('payeePhone').value;
-            const payeeName = document.getElementById('payeeName').value;
-            const amount = document.getElementById('amount').value;
-
-            if (!bearerToken || !payerPhone || !payeePhone || !amount) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
-            pendingTransaction = {
-                bearerToken,
-                payerPhone,
-                payerName,
-                payeePhone,
-                payeeName,
-                amount
-            };
-
-            const dialogDetails = document.getElementById('dialogDetails');
-            dialogDetails.innerHTML = `
-                <p><strong>From:</strong> ${payerName} (${payerPhone})</p>
-                <p><strong>To:</strong> ${payeeName} (${payeePhone})</p>
-                <p><strong>Amount:</strong> ${amount} XAF</p>
-                <p><strong>Country:</strong> TD (Chad)</p>
-            `;
-
-            document.getElementById('confirmationDialog').classList.add('show');
-        }
-
-        function cancelTransaction() {
-            pendingTransaction = null;
-            document.getElementById('confirmationDialog').classList.remove('show');
-        }
-
-        function confirmTransaction() {
-            document.getElementById('confirmationDialog').classList.remove('show');
-            executeTransfer();
-        }
-
-        async function executeTransfer() {
-            const { bearerToken, payerPhone, payerName, payeePhone, payeeName, amount } = pendingTransaction;
-
-            document.getElementById('loading').classList.add('show');
-
-            try {
-                const xmlPayload = `<?xml version="1.0" encoding="UTF-8"?>
-<COMMAND>
-  <HEADER>
-    <MESSAGE_TYPE>MONEY_TRANSFER_REQUEST</MESSAGE_TYPE>
-    <VERSION>1.0</VERSION>
-    <TIMESTAMP>${new Date().toISOString()}</TIMESTAMP>
-    <REQUEST_ID>TXN${Date.now()}</REQUEST_ID>
-    <COUNTRY>TD</COUNTRY>
-    <CURRENCY>XAF</CURRENCY>
-  </HEADER>
-  <AUTHENTICATION>
-    <AUTHORIZATION>Bearer ${bearerToken}</AUTHORIZATION>
-    <TOKEN_TYPE>Bearer</TOKEN_TYPE>
-  </AUTHENTICATION>
-  <TRANSACTION>
-    <TRANSACTION_TYPE>MONEY_TRANSFER</TRANSACTION_TYPE>
-    <REFERENCE_NUMBER>TXN${Date.now()}</REFERENCE_NUMBER>
-    <PAYER>
-      <MSISDN>${payerPhone}</MSISDN>
-      <NAME>${payerName}</NAME>
-      <CURRENCY>XAF</CURRENCY>
-    </PAYER>
-    <PAYEE>
-      <MSISDN>${payeePhone}</MSISDN>
-      <NAME>${payeeName}</NAME>
-      <CURRENCY>XAF</CURRENCY>
-    </PAYEE>
-    <PAYMENT_DETAILS>
-      <AMOUNT>${amount}</AMOUNT>
-      <CURRENCY>XAF</CURRENCY>
-      <SERVICE_TYPE>MERCHPAY</SERVICE_TYPE>
-      <DESCRIPTION>Money Transfer</DESCRIPTION>
-    </PAYMENT_DETAILS>
-  </TRANSACTION>
-</COMMAND>`;
-
-                const response = await fetch('https://openapiuat.airtel.td/merchant/v1/transactions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/xml',
-                        'Authorization': `Bearer ${bearerToken}`,
-                        'x-country': 'TD',
-                        'x-currency': 'XAF'
-                    },
-                    body: xmlPayload
-                });
-
-                const data = await response.text();
-
-                document.getElementById('loading').classList.remove('show');
-                showResponse(response.status, data);
-
-            } catch (error) {
-                document.getElementById('loading').classList.remove('show');
-                showResponse(0, `Error: ${error.message}`);
-            }
-        }
-
-        function showResponse(statusCode, data) {
-            const responseSection = document.getElementById('responseSection');
-            const statusBadge = document.getElementById('statusBadge');
-            const responseBox = document.getElementById('responseBox');
-
-            responseSection.classList.add('show');
-
-            let parsedData = data;
-            try {
-                parsedData = JSON.stringify(JSON.parse(data), null, 2);
-            } catch (e) {
-                parsedData = data;
-            }
-
-            responseBox.textContent = `Status: ${statusCode}\n\n${parsedData}`;
-
-            if (statusCode === 200) {
-                statusBadge.innerHTML = '<span class="status-badge success">✅ SUCCESS</span>';
-            } else if (statusCode === 0) {
-                statusBadge.innerHTML = '<span class="status-badge error">❌ ERROR</span>';
-            } else {
-                statusBadge.innerHTML = '<span class="status-badge warning">⚠️ WARNING</span>';
-            }
-
-            window.scrollTo(0, document.body.scrollHeight);
-        }
-    </script>
-</body>
-</html>
+**Created by:** Blendaar
+**Last Updated:** 2026-07-14
